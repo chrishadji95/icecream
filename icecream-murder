@@ -1,0 +1,74 @@
+var i = 0;
+var sum = 0;
+var sum1 = 0;
+var img;
+var imgStat;
+var imgSummer;
+var imgWinter;
+var imgNoIceCream;
+var imgHeadline;
+
+
+function preload(){
+
+  img = loadImage("ice cream killer last.png");
+  imgStat = loadImage("icecreamstats 2.png");
+  imgSummer = loadImage("Summer Homicides (2003-present).png");
+  imgWinter = loadImage("Winter Homicides (2003-present).png");
+  imgNoIceCream = loadImage("no ice cream.png");
+  imgHeadline = loadImage("ice cream headline.png");
+
+}
+function setup(){
+  httpGet('https://data.buffalony.gov/resource/xxu9-yrhd.json', myCallback);
+  createCanvas(windowWidth, windowHeight);
+}
+
+function draw(){
+background(40);
+image(imgStat, 600, 350);
+image(imgSummer, 50, 110);
+image(imgWinter, 50, 40);
+
+
+  for(var j = 0; j <= sum/5; j++){
+  image(img, width - j*30, 20);
+  }
+for(var w = 0; w <= sum1/5; w++){
+image(img, width - w*30, 100)
+  }
+  if (millis() > 3500){
+    rotate(PI/6);
+    image(imgNoIceCream, 250, -300);
+    imgNoIceCream.resize(510, 450);
+  }
+  if (millis() > 4500){
+    //rotate(PI/8);
+    image(imgHeadline, 800, -350);
+    imgHeadline.resize(400, 50);
+  }
+}
+
+function myCallback(result){
+  console.log(result);
+  console.log(typeof result);
+
+  for(var t = 0; t<1100; t++){
+    if((result[t].type == 'Homicide' && result[t].month == 'June') ||
+    (result[t].type == 'Homicide' && result[t].month == 'July') ||
+    (result[t].type == 'Homicide' && result[t].month == 'August')){
+
+    console.log(result[t].count);
+    sum1 = sum1 + parseFloat(result[t].count);
+    console.log(sum1);
+  }
+      if((result[t].type == 'Homicide' && result[t].month == 'January') ||
+      (result[t].type == 'Homicide' && result[t].month == 'February') ||
+      (result[t].type == 'Homicide' && result[t].month == 'December')){
+
+      console.log(result[t].count);
+      sum = sum + parseFloat(result[t].count);
+      console.log(sum);
+      }
+    }
+  }
